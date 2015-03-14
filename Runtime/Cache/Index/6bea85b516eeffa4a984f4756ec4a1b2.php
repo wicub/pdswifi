@@ -1,7 +1,7 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo C('sitename');?>--会员中心</title>
+<title><?php echo C('sitename');?>--联盟设置</title>
 <meta name="keywords" content="<?php echo C('keyword');?>"/>
 <meta name="description" content="<?php echo C('content');?>"/>
 <meta charset="UTF-8" />
@@ -97,8 +97,8 @@
 
 <div id="content">
 <div id="content-header">
-  <div id="breadcrumb"> <a href="<?php echo U('user/index');?>" title="返回首页" class="tip-bottom"><i class="icon-home"></i>首页</a>  <a href="#" class="current">应用设置</a> </div>
-  <h1>应用设置</h1>
+  <div id="breadcrumb"> <a href="<?php echo U('user/index');?>" title="返回首页" class="tip-bottom"><i class="icon-home"></i>首页</a>  <a href="#" class="current">联盟设置</a> </div>
+  <h1>联盟设置</h1>
 </div>
 <div class="container-fluid">
   <hr>
@@ -109,111 +109,14 @@
           <h5>编辑</h5>
         </div>
         <div class="widget-content nopadding">
-        <form name='form' action="index.php?m=User&a=doapp" method="post" class="form-horizontal">
+        <form name='form' action="index.php?m=User&a=lianmengset" method="post" class="form-horizontal">
  		
         	 
-       		<div class="control-group">
-       		<div class="span1"></div>
-       			<div class="alert alert-block span10 hide" id="msgbox"> 
-              <h4 class="alert-heading">提示信息</h4>
-             <div id="alertmsg"></div>
-              </div>
-       		</div>
-			<div class="control-group">
-              <label class="control-label">认证模式:</label>
-              <div class="controls">
-                <?php if(is_array($authmode)): $i = 0; $__LIST__ = $authmode;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><label>
-                  <input type="checkbox" onchange="yincangweixin(this)" value="<?php echo ($vo["key"]); ?>" name="authmode[]" id="xuanxiang<?php echo ($vo["key"]); ?>" <?php echo showauthcheck($vo['key'],$info['authmode']);?>/>
-                  <?php echo ($vo["txt"]); ?></label><?php endforeach; endif; else: echo "" ;endif; ?>
-               
-              </div>
-            </div>
-            <div class="control-group"  id="wxacc">
-              <label class="control-label">微信号 :</label>
-              <div class="controls">
-                <input type="text" class="span11" placeholder="微信号"  name="wx" id="wx" value="<?php echo echojsonkey(showauthdata('3',$info['authmode']),'user');?>" />
-              	 <span class="help-block">请输入您想让用户关注的微信名称</span>
-              </div>
-            </div>
-            <div class="control-group" id="wxauth" >
-              <label class="control-label">认证方式: </label>
-              <div class="controls">
-                <input style="display:none;" type="text" class="span11" placeholder="微信认证密码 " name="wxauthpwd" id="wxauthpwd" value="123456"/><!--<?php echo echojsonkey(showauthdata('3',$info['authmode']),'pwd');?>-->
-               <span class="help-block" style="display:none;">输入微信认证上网的认证密码</span>
-			   <span class="help-block" style="color:red;">设置图文回复,关键词为"上网",外部链接为：http://www.wyywifi.com/index.php/api/wxlogin/index/</span>
-			   <p>如使用微信认证,请复制以下白名单地址在路由器中设置:</p>
-			        
-<pre class="prettyprint linenums " style="width:90%">
-<ol class="linenums" id="baimingdan">
-qq.com,weixin.com,short.weixin.qq.com,long.weixin.qq.com,szshort.weixin.qq.com,wyywifi.com,apple.com,captive.apple.com</ol></pre>
-</div>
-            </div>
-             <div class="control-group">
-              <label class="control-label">上网时段控制 :</label>
-              <div class="controls">
-                  <select name="sh" id="sh" class="span3" style="float:left">
-                  <?php $__FOR_START_10997__=0;$__FOR_END_10997__=24;for($i=$__FOR_START_10997__;$i < $__FOR_END_10997__;$i+=1){ ?><option value="<?php echo ($i); ?>" <?php if(($info['sh']) == $i): ?>selected<?php endif; ?>><?php echo ($i); ?>:00点</option><?php } ?>      
-                  </select>
-                  <label class="span1">到</label>
-                  <select name="eh" id="eh" class="span3">
-                  	<?php $__FOR_START_4474__=0;$__FOR_END_4474__=24;for($i=$__FOR_START_4474__;$i < $__FOR_END_4474__;$i+=1){ ?><option value="<?php echo ($i); ?>" <?php if(($info['eh']) == $i): ?>selected<?php endif; ?>><?php echo ($i); ?>:00点</option><?php } ?>
-                  </select>
-                 
-              	<span class="span12 help-block">允许用户上网的时间范围。注:比如 7:00~20:00点</span>
-              </div>
-            </div>
-			 <div class="control-group">
-			   <label class="control-label">上网限制 :</label>
-              <div class="controls">
-                 <label>
-                <input type="radio" value="1" name="countflag" <?php if(($info['countflag']) == "1"): ?>checked<?php endif; ?>>启用
-                 </label>  
-                 <label> 
-                  <input type="radio" value="0" name="countflag" <?php if(($info['countflag']) == "0"): ?>checked<?php endif; ?>>停用
-    		</label>
-              <span class="help-block">上网限制,可有效防止员工长时间占用无线网络</span>
-              </div>
-			 </div>
-			<div class="control-group">
-			   <label class="control-label">上网允许认证次数 :</label>
-              <div class="controls">
-                <input type="text"  class="span11" placeholder="请输入认证次数"  name="countmax" id="countmax" value="<?php echo ($info['countmax']); ?>"/>
-              <span class="help-block">本日允许使用wifi的次数（在启用上网限制功能后有效）</span>
-              </div>
-			 </div>
-            <div class="control-group">
-              <label class="control-label">上网时间限制 :</label>
-              <div class="controls">
-                <input type="text"  class="span11" placeholder="请输入时间(单位:分钟)"  name="timelimit" id="timelimit" value="<?php echo ($info['timelimit']); ?>"/>
-              <span class="help-block">允许用户上网的时间(单位:分钟)。注:不限制时间请填:0</span>
-              </div>
-            </div>
-			
-            <div class="control-group">
-              <label class="control-label">认证后行为:</label>
-              <div class="controls">
-               
-              
-                <label>
-                <input type="radio" value="1" name="authaction" <?php if(($info['authaction']) == "1"): ?>checked<?php endif; ?>>跳转指定网页
-                 </label>  
-                 <label> 
-                  <input type="radio" value="0" name="authaction" <?php if(($info['authaction']) == "0"): ?>checked<?php endif; ?>>不跳转
-    		</label>
-      				 <label>
-      				 <input type="radio" value="2" name="authaction" <?php if(($info['authaction']) == "2"): ?>checked<?php endif; ?>>跳转请求网页
-				 </label>       
-                <label>
-      				 <input type="radio" value="3" name="authaction" <?php if(($info['authaction']) == "3"): ?>checked<?php endif; ?>>跳转到微官网
-				 </label>   
-				  <span class="help-block">用户通过认证后引导用户行为选择。</span> 
-              </div>
-            </div>
              
             <div class="control-group">
-              <label class="control-label">指定跳转URL :</label>
+              <label class="control-label">联盟跳转URL : <font color="red">HTTP://</font></label>
               <div class="controls">
-                <input type="text" class="span11" placeholder="跳转网页地址 " name="jumpurl" id="jumpurl" value="<?php echo ($info['jumpurl']); ?>"/>
+               <input type="text" class="span11" placeholder="联盟跳转URL " name="lianmengurl" id="lianmengurl" value="<?php echo ($shop['lianmengurl']); ?>"/>
               </div>
             </div>
        
