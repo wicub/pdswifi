@@ -12,4 +12,4 @@ return array(
 	'DB_PWD'=>'root',
 	'DB_PREFIX'=>'wifi_',
 	'DB_FIELDTYPE_CHECK' => 'true',
-);aaa
+);
